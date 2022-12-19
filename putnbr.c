@@ -8,7 +8,7 @@ void test();
 
 int main()
 {
-    my_putnbr(2147483647);
+    my_putnbr(-2147483648);
     return 0;
 }
 
@@ -46,6 +46,7 @@ int my_pwr_int(int nbr, int pwr){
 
 void my_putnbr(int nbr){
     int i;
+    int temp_nbr;
     int num;
     int length;
     int pwr;
@@ -57,13 +58,21 @@ void my_putnbr(int nbr){
     
     if(nbr < 0){
         my_putchar('-');
-        nbr = nbr * -1;
+        if(nbr == -2147483648){
+            num = nbr / pwr_int;
+            num = num * -1 + 48;
+            my_putchar(num);
+            temp_nbr = 147483648;
+            length--;
+            pwr--;
+            pwr_int = my_pwr_int(10, pwr);
+        }
+        nbr = nbr == -2147483648 ? temp_nbr : nbr * -1;
     }
     while(i < length){
         num = nbr / pwr_int;
         num = num % 10 + 48;
         my_putchar(num);
-        //num = nbr;
         pwr--;
         pwr_int = my_pwr_int(10, pwr);
         i++;
