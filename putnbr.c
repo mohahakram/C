@@ -8,7 +8,7 @@ void test();
 
 int main()
 {
-    my_putnbr(-2147483648);
+    test();
     return 0;
 }
 
