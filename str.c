@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void my_swap(int *a, int *b);
+void my_swapint(int *a, int *b);
+void my_swapchar(char *a, char *b);
 void my_putstr(char *s);
 int my_strlen(char *s);
 char* my_revstr(char *s);
@@ -9,6 +10,13 @@ void test();
 int main()
 {
     //test();
+    char s[] = "olleh";
+    char a = 'a';
+    char b = 'b';
+    my_swapchar(&a, &b);
+    my_revstr(s);
+    printf("s = %s", s);
+    printf("a = %c, b = %c", a,b);
     return 0;
 }
 
@@ -16,8 +24,16 @@ void my_putchar(char c){
     write(1, &c, 1);
 }
 
-void my_swap(int *a, int *b){
+void my_swapint(int *a, int *b){
     int c;
+    
+    c = *a;
+    *a = *b;
+    *b = c;
+}
+
+void my_swapchar(char *a, char *b){
+    char c;
     
     c = *a;
     *a = *b;
@@ -32,35 +48,28 @@ void my_putstr(char *s){
         my_putchar(s[i]);
         i++;
     }
-    my_putchar('\n');
 }
 
 int my_strlen(char *s){
     int i;
-    int length;
     
     i = 0;
-    length = 0;
     while(s[i] != '\0'){
-        length++;
         i++;
     }
-    return length;
+    return i;
 }
 
 char* my_revstr(char *s){
     int i;
     int j;
-    char a;
     int len;
     
     i = 0;
     len = my_strlen(s);
     j = len - 1;
     while(i <= len / 2){
-        a = s[i];
-        s[i] = s[j];
-        s[j]= a;
+        my_swapchar(s + i, s + j);
         i++;
         j--;
     }
@@ -69,6 +78,12 @@ char* my_revstr(char *s){
 }
 
 /*
+int my_strlen(char* c){
+    int length;
+    length = 0;
+    
+}
+
 void test(){
     /////my_length//////
     {
