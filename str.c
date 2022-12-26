@@ -79,7 +79,7 @@ int my_getnbr(char *nbr){
 	num = 0;
 	negative = 0;
 
-	while(nbr[i] < 48){
+	while(nbr[i] < 48 && nbr[i] != '\0'){
 		if(nbr[i] == '-'){
 			negative++;
 		}
@@ -95,7 +95,7 @@ int my_getnbr(char *nbr){
 		num = num + nbr[i];
 		num = num - 48;
 		if(num < 0){
-			return 0;
+		    return 0;
 		}
 		i++;
 	}
@@ -202,6 +202,7 @@ void test(){
         char nbr5[] = "-2147483647";
         char nbr6[] = "2147483648";
         char nbr7[] = "-2147483648";
+        char nbr8[] = "++--++";
         
         int result1 = my_getnbr(nbr1);
         int result2 = my_getnbr(nbr2);
@@ -210,6 +211,7 @@ void test(){
         int result5 = my_getnbr(nbr5);
         int result6 = my_getnbr(nbr6);
         int result7 = my_getnbr(nbr7);
+        int result8 = my_getnbr(nbr8);
         
 		if(result1 != 0){
 		    printf("\nmy_getnbr expected result1 = 0 / got = %d", result1);
@@ -231,6 +233,9 @@ void test(){
 		}
 		if(result7 != 0){
 		    printf("\nmy_getnbr expected result7 = 0 / got = %d", result7);
+		}
+		if(result8 != 0){
+		    printf("\nmy_getnbr expected result8 = 0 / got = %d", result8);
 		}
     }
 }
