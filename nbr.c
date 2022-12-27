@@ -27,7 +27,7 @@ int my_facto_int(int nbr){
 
 int my_facto_rec(int nbr){
     if(nbr < 0){
-		return 0;
+	return 0;
 	}
 	else if(nbr == 1 || nbr == 0){
 		return 1;
