@@ -42,11 +42,7 @@ int my_pwr_rec(int nbr, int pwr){
 	if(pwr == 0){
 		return 1; 
 	}
-	if(pwr > 1){
-        return nbr * my_pwr_rec(nbr, pwr - 1);
-	}else{
-	    return nbr;
-	}
+    return nbr * my_pwr_rec(nbr, pwr - 1);
 }
 
 void test(){
