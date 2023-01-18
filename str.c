@@ -15,6 +15,10 @@ int my_strisnum(char *s);
 char* my_str_upcase(char *s);
 char* my_str_lowercase(char *s);
 char* my_str_capitalize(char *s);
+char *my_strcat(char *restrict s1, const char *restrict s2);
+char *my_strncat(char *restrict s1, char *restrict s2, size_t n);
+char *my_strdup(const char *s1);
+char *my_strndup(const char *s1, size_t n);
 void test();
 
 int main()
@@ -259,6 +263,62 @@ char* my_str_capitalize(char *s){
         i++;
     }
     return s;
+}
+
+char *my_strcat(char *restrict s1, const char *restrict s2){
+	int i;
+	int j;
+    i = 0;
+	j = 0;
+
+	while(s1[i] != '\0'){
+		i++;
+	}
+	while(s2[j] != '\0'){
+		s1[i] = s2[j];
+		i++;
+		j++;
+	}
+	s1[i] = '\0';
+	return s1;
+}
+
+char* my_strncat(char *restrict s1, char *restrict s2, size_t n){
+	int i;
+	int j;
+	i = 0;
+	j = 0;
+
+	while(s1[i] != '\0'){
+		i++;
+	}
+	while(j < n && s2[j] != '\0'){
+		s1[i] = s2[j];
+		i++;
+		j++;
+	}
+	s1[i] = '\0';
+	return s1;
+}
+
+char *my_strdup(const char *s1){
+    char *s2 = malloc(sizeof(s1));
+    
+    if(s2 == NULL){
+        return NULL;
+    }
+    my_strcpy(s2, s1);
+    return s2;
+}
+
+char *my_strndup(const char *s1, size_t n){
+    char *s2 = malloc(sizeof(s1));
+    
+    if(s2 == NULL){
+        return NULL;
+    }
+    my_strncpy(s2, s1, n);
+    return s2;
 }
 
 void test(){
@@ -1013,4 +1073,198 @@ void test(){
 		    i++;
 		}
 	}
+	
+	/////my_strcat/////
+    {
+        int i;
+        i = 0;
+        char s1[] = "hello world";
+        char s2[] = "hello";
+        char s3[] = " world";
+        
+        my_strcat(s2, s3);
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strcat expected : hello world / got : %s\n", s2);
+            }
+            i++;
+        }
+    }
+    
+    {
+        int i;
+        i = 0;
+        char s1[] = "h";
+        char s2[] = "";
+        char s3[] = "hello";
+        
+        my_strcat(s2, s3);
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strcat expected : h / got : %s\n", s2);
+            }
+            i++;
+        }
+    }
+    
+    {
+        int i;
+        i = 0;
+        char s1[] = "hello 1@";
+        char s2[] = "hello ";
+        char s3[] = "1@";
+        
+        my_strcat(s2, s3);
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strcat expected : '%c' / got : '%c'\n",s1[i], s2[i]);
+            }
+            i++;
+        }
+    }
+    
+    /////my_strncat/////
+    {
+        int i;
+        i = 0;
+        char s1[] = "hello world";
+        char s2[] = "hello";
+        char s3[] = " world";
+        
+        my_strncat(s2, s3, sizeof(s2));
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : hello world / got : %s\n", s2);
+            }
+            i++;
+        }
+    }
+    
+    {
+        int i;
+        i = 0;
+        char s1[] = "h";
+        char s2[] = "";
+        char s3[] = "hello";
+        
+        my_strncat(s2, s3, sizeof(s2));
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : h / got : %s\n", s2);
+            }
+            i++;
+        }
+    }
+    
+    {
+        int i;
+        i = 0;
+        char s1[] = "hello 1@";
+        char s2[] = "hello ";
+        char s3[] = "1@";
+        
+        my_strncat(s2, s3, sizeof(s2));
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : '%c' / got : '%c'\n",s1[i], s2[i]);
+            }
+            i++;
+        }
+    }
+    
+    /////my_strdup////
+    {
+        int i;
+        i = 0;
+        char s1[] = "hello 1@";
+        char *s2 = my_strdup(s1);
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : '%c' / got : '%c'\n",s1[i], s2[i]);
+            }
+            i++;
+        }
+        free(s2);
+    }
+    
+    {
+        int i;
+        i = 0;
+        char s1[] = "h";
+        char *s2 = my_strdup(s1);
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : '%c' / got : '%c'\n",s1[i], s2[i]);
+            }
+            i++;
+        }
+        free(s2);
+    }
+    
+    {
+        int i;
+        i = 0;
+        char s1[] = "";
+        char *s2 = my_strdup(s1);
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : '%c' / got : '%c'\n",s1[i], s2[i]);
+            }
+            i++;
+        }
+        free(s2);
+    }
+    
+    /////my_strndup////
+    {
+        int i;
+        i = 0;
+        char s1[] = "hello 1@";
+        char *s2 = my_strndup(s1, sizeof(s1));
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : '%c' / got : '%c'\n",s1[i], s2[i]);
+            }
+            i++;
+        }
+        free(s2);
+    }
+    
+    {
+        int i;
+        i = 0;
+        char s1[] = "h";
+        char *s2 = my_strndup(s1, sizeof(s1));
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : '%c' / got : '%c'\n",s1[i], s2[i]);
+            }
+            i++;
+        }
+        free(s2);
+    }
+    
+    {
+        int i;
+        i = 0;
+        char s1[] = "";
+        char *s2 = my_strndup(s1, sizeof(s1));
+        
+        while(s1[i] != '\0'){
+            if(s1[i] != s2[i]){
+                printf("my_strncat expected : '%c' / got : '%c'\n",s1[i], s2[i]);
+            }
+            i++;
+        }
+        free(s2);
+    }
 }
